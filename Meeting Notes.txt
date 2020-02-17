@@ -1,0 +1,62 @@
+Meeting Notes // Contributions
+
+##################################################################################
+
+FEB 17 - Everyone
+
+Team Meeting to plan out project timeline, scope, details
+
+##################################################################################
+FEB 7 2020 - Arjun, Armin, Susan
+
+Attended lab session to discuss project ideas with TAs
+
+##################################################################################
+FEB 5 2020 - Everyone
+
+The original paper
+A query using an image to find the ingredients/recipe instructions and vice versa
+Created a joint embedding 
+
+Our idea:
+    - Have an image and find the ingredients
+
+Email head TA and instructor (by Feb 9):
+    - team member’s names
+    - short 2-4 sentence description of the project idea you wish to work on
+    - the dataset(s) that you plan on using
+    - Original: http://pic2recipe.csail.mit.edu/
+    - Simplified: https://dominikschmidt.xyz/simplified-recipes-1M/#dataset-sources
+how you plan on collecting, cleaning and processing the data
+
+##################################################################################
+JAN 31 2020 - Everyone
+
+PRAXIS
+    Is a given heuristic a good heuristic (from TELS) based on team performance
+    Predict whether a team will perform well based on individual and group grades
+
+
+Recipe dataset https://www.reddit.com/r/datasets/comments/dd84u8/1_million_simplified_recipes_dataset/ 
+    Original dataset here: http://pic2recipe.csail.mit.edu/
+    Simplified https://dominikschmidt.xyz/simplified-recipes-1M/#dataset-sources
+    Recipe completion/generation (ingredients or instructions)
+    Recipe validity score for new recipes
+    Add food pictures and do ingredient/recipe predictions
+    Cook/prep time
+    Wine pairing?
+
+Adding accents to names
+    Classify language/region before putting accents?
+
+Pair wine and foods?
+
+Art dataset https://creativecommons.org/2020/01/10/paris-musees-releases-100000-works-into-the-public-domain/ link: http://parismuseescollections.paris.fr/fr/structures-des-donnees (in french lol)
+
+Respiratory Sound database https://www.kaggle.com/vbookshelf/respiratory-sound-database
+
+Reading comprehension:  https://tticnlp.github.io/who_did_what/index.html
+
+Uber travel time data https://movement.uber.com/?lang=en-GB
+
+
