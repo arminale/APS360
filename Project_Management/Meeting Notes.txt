@@ -6,6 +6,29 @@ FEB 17 - Everyone
 
 Team Meeting to plan out project timeline, scope, details
 
+Plan for Project Proposal
+    - Update team chat everytime we edit the document
+    - Final read-over saterday evening, skype if unable to meet in person
+
+Terminology
+    - Un-Proccessed Recipe: the individual recipes (text) as we get them from our data set
+        -  Composition of name, id, list of "Un-Proccessed ingredients"
+        - Instructions will be ignored
+    - Un-Proccessed Ingredients: raw scraped ingredients pertaining to a specific recipe
+        -  e.g. 2 tbs of organic extra virgin olive oil, 4 finely minced garlic cloves
+    - Pre-Proccessed Recipes: the individual recipes with ingredient info pre-proccessed
+        - contains Pre-Proccessed Ingredients
+    - Pre-Proccessed Ingredients: cleaned ingredient information from a specific recipe
+        -  e.g. olive oil, garlic
+    - External Ingredients List: The list of ingredients we are comparing to for the one-hot encoding.
+
+
+Data 
+    - Not going to use their pre-proccessed ingredients list
+    - Have list of images mapped to recipes 
+    - Have list of food ingredients 
+    - Convert "2 tbs of olive oil to olive oil" from the ingredients text in recipes
+
 ##################################################################################
 FEB 7 2020 - Arjun, Armin, Susan
 
