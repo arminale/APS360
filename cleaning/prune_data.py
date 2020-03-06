@@ -23,5 +23,5 @@ for i, recipe in enumerate(recipes):
         print(i)
 print("Data pruned")
 pp.pprint(recipes[0])
-with open(os.path.join("..", "data", "raw", "pruned.json"), "w") as output:
+with open(os.path.join("..", "data", "cleaned", "pruned.json"), "w") as output:
     json.dump(recipes, output)
