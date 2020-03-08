@@ -2,29 +2,37 @@ import os
 import json
 import csv
 import pprint
+import sys
 from collections import deque
 pp = pprint.PrettyPrinter(indent=4)
 
 print("Loading pruned recipes file")
-with open(os.path.join("..", "data", "cleaned", "pruned.json"), "r") as inf:
+with open(os.path.join("..", "data", "cleaned", "test.json"), "r") as inf:
     recipes = json.load(inf)
 
 print("Loading unique list of ingredients")
-with open(os.path.join("..", "data", "cleaned", "ingredients.csv"), newline='') as inf:
-    reader = csv.reader(inf)
-    ingredients = list(reader)
-    ingredients = [x[0] for x in ingredients]
+with open(os.path.join("..", "data", "cleaned", "reduced_listing.csv"), "r") as inf:
+    ingredients = deque()
+    for line in inf:
+        ingredients.append(line.strip("\n").lower().strip())
 
-pp.pprint(recipes[0])
-print(ingredients)
+ingredients = list(filter(lambda ing: len(ing) > 0, ingredients))
+ingredients = list(set(ingredients))
+print(len(ingredients))
+
+print("baking powder" in ingredients)
+ingredients.sort(key=lambda x: len(x), reverse=True)
+print(ingredients.index("baking powder"))
+print(ingredients.index("powder"))
 
 for i, recipe in enumerate(recipes):
-    valid_ing_list = deque()
+    valid_ing_list = []
     for raw_ing in recipe["ingredients"]:
-        for valid_ing in ingredients:
-            if valid_ing in raw_ing["text"]:
+        for j, valid_ing in enumerate(ingredients):
+            if valid_ing in raw_ing["text"].lower().replace("-", " "):
                 valid_ing_list.append(valid_ing)
-    recipe["ingredients"] = list(valid_ing_list)
+                break
+    recipe["ingredients"] = list(set(valid_ing_list))
     if i+1 % 10000 == 0:
         print(i)
 
