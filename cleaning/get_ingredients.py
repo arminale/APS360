@@ -9,7 +9,7 @@ print("Loading pruned recipes file")
 with open(os.path.join("..", "data", "cleaned", "pruned.json"), "r") as inf:
     recipes = json.load(inf)
 
-print("Loading unique list of ")
+print("Loading unique list of ingredients")
 with open(os.path.join("..", "data", "cleaned", "ingredients.csv"), newline='') as inf:
     reader = csv.reader(inf)
     ingredients = list(reader)
