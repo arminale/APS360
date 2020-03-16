@@ -7,7 +7,7 @@ from collections import deque
 pp = pprint.PrettyPrinter(indent=4)
 
 print("Loading pruned recipes file")
-with open(os.path.join("..", "data", "cleaned", "pruned.json"), "r") as inf:
+with open(os.path.join("..", "data", "cleaned", "pruned_recipes.json"), "r") as inf:
     recipes = json.load(inf)
 
 print("Loading unique list of ingredients")
