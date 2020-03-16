@@ -24,6 +24,9 @@ val_ingredients = list(filter(lambda ing: len(ing) > 0, val_ingredients))
 val_ingredients = list(set(val_ingredients))
 val_ingredients.sort(key=lambda x: len(x), reverse=True)
 
+recipes = list(filter(lambda recipe: recipe["partition"] == "test", recipes))
+print("Test recipes: {}".format(len(recipes)))
+
 map_ingredients = True
 ing_dict = {}
 
