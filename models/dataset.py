@@ -7,7 +7,7 @@ import random
 import numpy as np
 
 
-class ImagerLoader(data.Dataset):
+class ImageSet(data.Dataset):
     def __init__(self, img_folder_path, recipe_folder_path, mappings_path=None, mappings=None):
 
         if mappings_path is None and mappings is None:
@@ -39,6 +39,9 @@ class ImagerLoader(data.Dataset):
         self.loaded = False
 
     def unload(self):
+        if not self.loaded:
+            print("Data has already been removed from memory")
+            return
         print("Removing loaded data from memory")
         del self.recipes
         del self.images
@@ -52,12 +55,12 @@ class ImagerLoader(data.Dataset):
         random.seed(1000)
         random.shuffle(self.mappings)
 
-        train_set = ImagerLoader(self.img_folder_path, self.recipe_folder_path,
-                                 mappings=self.mappings[:int(self.length*0.70)])
-        valid_set = ImagerLoader(self.img_folder_path, self.recipe_folder_path,
-                                 mappings=self.mappings[int(self.length*0.70):int(self.length*0.85)])
-        test_set = ImagerLoader(self.img_folder_path, self.recipe_folder_path,
-                                mappings=self.mappings[int(self.length*0.85):])
+        train_set = ImageSet(self.img_folder_path, self.recipe_folder_path,
+                             mappings=self.mappings[:int(self.length*0.70)])
+        valid_set = ImageSet(self.img_folder_path, self.recipe_folder_path,
+                             mappings=self.mappings[int(self.length*0.70):int(self.length*0.85)])
+        test_set = ImageSet(self.img_folder_path, self.recipe_folder_path,
+                            mappings=self.mappings[int(self.length*0.85):])
 
         return train_set, valid_set, test_set
 
@@ -107,35 +110,59 @@ class ImagerLoader(data.Dataset):
             images_np[i] = self.images[image_id].numpy()
             recipes_np[i] = self.recipes[recipe_id].numpy()
 
-        print("To avoiding memory errors, data loaded into this dataset will be removed")
+        print("To avoid memory errors, data loaded into this dataset will be removed")
         self.unload()
         return images_np, recipes_np
 
 
 if __name__ == "__main__":
 
-    test = ImagerLoader(os.path.join("..", "data", "cleaned", "images", "test"),
-                        os.path.join("..", "data", "cleaned", "recipes"),
-                        mappings_path=os.path.join(
-                            "..", "data", "cleaned", "final_cleaned_mappings.json"))
+    test = ImageSet(os.path.join("..", "data", "cleaned", "images", "test"),
+                    os.path.join("..", "data", "cleaned", "recipes"),
+                    mappings_path=os.path.join(
+        "..", "data", "cleaned", "final_cleaned_mappings.json"))
     test.load()
-    test.load()
-    print(test.__getitem__(0)[0].shape)
-    print(test.__getitem__(0)[1].shape)
-    print(len(test))
-    test.unload()
-    images, recipes = test.get_all_as_numpy()
-    print(images.shape)
-    print(recipes.shape)
-    del images
-    del recipes
-    train_set, valid_set, test_set = test.split()
-    print(len(train_set))
-    print(len(valid_set))
-    print(len(test_set))
-    train_set.load()
-    train_loader = data.DataLoader(train_set, batch_size=32, shuffle=True)
-    for sample, label in train_loader:
-        print(sample.shape)
-        print(label.shape)
-        break
+    # test.load()
+    # print(test.__getitem__(0)[0].shape)
+    # print(test.__getitem__(0)[1].shape)
+    # print(len(test))
+    # test.unload()
+    X, y = test.get_all_as_numpy()
+    print(X.shape)
+    print(y.shape)
+
+    from sklearn.ensemble import RandomForestClassifier
+
+    X_train = X[0:int(0.2*X.shape[0]), :]
+    y_train = y[0:int(0.2*y.shape[0])]
+    X_test = X[int(0.2*X.shape[0]):int(0.2*X.shape[0])+int(0.05*X.shape[0]), :]
+    y_test = y[int(0.2*y.shape[0]):int(0.2*X.shape[0])+int(0.05*X.shape[0])]
+
+#X_valid = X[0:]
+    print(X.shape, X_train.shape, y_train.shape, X_test.shape, y_test.shape)
+
+    clf = RandomForestClassifier(max_depth=200, verbose=2)
+    clf.fit(X_train, y_train)
+
+    correct = 0
+
+    prediction = clf.predict(X_test)
+    print(prediction)
+
+    for i in range(len(y_test)):
+        if prediction[i] == y_test[i]:
+            correct += 1
+
+    print("prediction accuracy: {}".format(correct/len(y_test)))
+    # del images
+    # del recipes
+    # train_set, valid_set, test_set = test.split()
+    # print(len(train_set))
+    # print(len(valid_set))
+    # print(len(test_set))
+    # train_set.load()
+    # train_loader = data.DataLoader(train_set, batch_size=32, shuffle=True)
+    # for sample, label in train_loader:
+    #     print(sample.shape)
+    #     print(label.shape)
+    #     break
